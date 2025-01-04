@@ -1,4 +1,5 @@
 "use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -25,107 +26,176 @@ const Header = () => {
 
   useEffect(() => {
     window.addEventListener("scroll", handleStickyMenu);
-  });
+    return () => {
+      window.removeEventListener("scroll", handleStickyMenu);
+    };
+  }, []);
 
   return (
     <header
-      className={`fixed left-0 top-0 z-99999 w-full py-7 ${
+      className={`fixed left-0 top-0 z-50 w-full py-7 transition-all duration-300 ${
         stickyMenu
-          ? "bg-white !py-4 shadow transition duration-100 dark:bg-black"
+          ? "bg-white !py-4 shadow dark:bg-black"
           : ""
       }`}
     >
-      <div className="relative mx-auto max-w-c-1390 items-center justify-between px-4 md:px-8 xl:flex 2xl:px-0">
-        <div className="flex w-full items-center justify-between xl:w-1/4">
-          <a href="/">
-          <Image
-              src="/images/logo/logo-dark.png"
-              alt="logo"
-              width={60}
-              height={30}
-              className="hidden w-full dark:block object-contain"
-            />
-            <Image
-              src="/images/logo/logo-light.png"
-              alt="logo"
-              width={60}
-              height={30}
-              className="w-full dark:hidden object-contain"
-            />
-          </a>
+      <div className="relative mx-auto max-w-c-1390 px-4 md:px-8 2xl:px-0">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center">
+            <Link href="/">
+              <Image
+                src="/images/logo/logo-dark.png"
+                alt="logo"
+                width={60}
+                height={30}
+                className="hidden w-full dark:block"
+              />
+              <Image
+                src="/images/logo/logo-light.png"
+                alt="logo"
+                width={60}
+                height={30}
+                className="w-full dark:hidden"
+              />
+            </Link>
+          </div>
 
-          {/* <!-- Hamburger Toggle BTN --> */}
-          <button
-            aria-label="hamburger Toggler"
-            className="block xl:hidden"
-            onClick={() => setNavigationOpen(!navigationOpen)}
-          >
-            <span className="relative block h-5.5 w-5.5 cursor-pointer">
-              <span className="absolute right-0 block h-full w-full">
-                <span
-                  className={`relative left-0 top-0 my-1 block h-0.5 rounded-sm bg-black delay-[0] duration-200 ease-in-out dark:bg-white ${
-                    !navigationOpen ? "!w-full delay-300" : "w-0"
-                  }`}
-                ></span>
-                <span
-                  className={`relative left-0 top-0 my-1 block h-0.5 rounded-sm bg-black delay-150 duration-200 ease-in-out dark:bg-white ${
-                    !navigationOpen ? "delay-400 !w-full" : "w-0"
-                  }`}
-                ></span>
-                <span
-                  className={`relative left-0 top-0 my-1 block h-0.5 rounded-sm bg-black delay-200 duration-200 ease-in-out dark:bg-white ${
-                    !navigationOpen ? "!w-full delay-500" : "w-0"
-                  }`}
-                ></span>
+          {/* Nav Menu Start */}
+          <div className="flex items-center">
+            <nav className={`mr-10 hidden lg:block ${navigationOpen ? 'block' : 'hidden'}`}>
+              <ul className="flex flex-col lg:flex-row lg:items-center lg:gap-10">
+                {menuData.map((menuItem, key) => (
+                  <li key={key} className={menuItem.submenu ? "group relative" : ""}>
+                    {menuItem.submenu ? (
+                      <>
+                        <button
+                          onClick={() => setDropdownToggler(!dropdownToggler)}
+                          className="flex cursor-pointer items-center justify-between py-2 text-base text-black hover:text-primary dark:text-white lg:py-0 lg:pr-0 xl:text-white"
+                        >
+                          {menuItem.title}
+                          <span className="pl-3">
+                            <svg width="15" height="14" viewBox="0 0 15 14">
+                              <path
+                                d="M7.81602 9.97495C7.68477 9.97495 7.57539 9.9312 7.46602 9.8437L2.43477 4.89995C2.23789 4.70308 2.23789 4.39683 2.43477 4.19995C2.63164 4.00308 2.93789 4.00308 3.13477 4.19995L7.81602 8.77183L12.4973 4.1562C12.6941 3.95933 13.0004 3.95933 13.1973 4.1562C13.3941 4.35308 13.3941 4.65933 13.1973 4.8562L8.16601 9.79995C8.05664 9.90933 7.94727 9.97495 7.81602 9.97495Z"
+                                fill="currentColor"
+                              />
+                            </svg>
+                          </span>
+                        </button>
+
+                        <ul
+                          className={`dropdown ${
+                            dropdownToggler ? "flex" : ""
+                          }`}
+                        >
+                          {menuItem.submenu.map((item, key) => (
+                            <li key={key} className="hover:text-primary">
+                              <Link href={item.path || "#"}>{item.title}</Link>
+                            </li>
+                          ))}
+                        </ul>
+                      </>
+                    ) : (
+                      <Link
+                        href={`${menuItem.path}`}
+                        className={`flex py-2 text-base text-black hover:text-primary dark:text-white lg:py-0 lg:text-white ${
+                          pathUrl === menuItem.path
+                            ? "text-primary dark:text-primary"
+                            : ""
+                        }`}
+                      >
+                        {menuItem.title}
+                      </Link>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </nav>
+
+            <div className="flex items-center gap-6">
+              <Link
+                href="https://nextjstemplates.com/templates/solid"
+                className="flex items-center justify-center rounded-full bg-primary px-7.5 py-2.5 text-regular text-white duration-300 ease-in-out hover:bg-primaryho"
+              >
+                Contact Us
+              </Link>
+              <ThemeToggler />
+            </div>
+
+            {/* Hamburger Toggle Button */}
+            <button
+              aria-label="hamburger Toggler"
+              className="block lg:hidden ml-4"
+              onClick={() => setNavigationOpen(!navigationOpen)}
+            >
+              <span className="relative block h-5.5 w-5.5 cursor-pointer">
+                <span className="absolute right-0 block h-full w-full">
+                  <span
+                    className={`relative left-0 top-0 my-1 block h-0.5 rounded-sm bg-black delay-[0] duration-200 ease-in-out dark:bg-white ${
+                      !navigationOpen ? "!w-full delay-300" : "w-0"
+                    }`}
+                  ></span>
+                  <span
+                    className={`relative left-0 top-0 my-1 block h-0.5 rounded-sm bg-black delay-150 duration-200 ease-in-out dark:bg-white ${
+                      !navigationOpen ? "delay-400 !w-full" : "w-0"
+                    }`}
+                  ></span>
+                  <span
+                    className={`relative left-0 top-0 my-1 block h-0.5 rounded-sm bg-black delay-200 duration-200 ease-in-out dark:bg-white ${
+                      !navigationOpen ? "!w-full delay-500" : "w-0"
+                    }`}
+                  ></span>
+                </span>
+                <span className="absolute right-0 h-full w-full rotate-45">
+                  <span
+                    className={`absolute left-2.5 top-0 block h-full w-0.5 rounded-sm bg-black delay-300 duration-200 ease-in-out dark:bg-white ${
+                      !navigationOpen ? "!h-0 delay-[0]" : "h-full"
+                    }`}
+                  ></span>
+                  <span
+                    className={`absolute left-0 top-2.5 block h-0.5 w-full rounded-sm bg-black delay-400 duration-200 ease-in-out dark:bg-white ${
+                      !navigationOpen ? "!h-0 delay-200" : "h-0.5"
+                    }`}
+                  ></span>
+                </span>
               </span>
-              <span className="du-block absolute right-0 h-full w-full rotate-45">
-                <span
-                  className={`absolute left-2.5 top-0 block h-full w-0.5 rounded-sm bg-black delay-300 duration-200 ease-in-out dark:bg-white ${
-                    !navigationOpen ? "!h-0 delay-[0]" : "h-full"
-                  }`}
-                ></span>
-                <span
-                  className={`delay-400 absolute left-0 top-2.5 block h-0.5 w-full rounded-sm bg-black duration-200 ease-in-out dark:bg-white ${
-                    !navigationOpen ? "!h-0 delay-200" : "h-0.5"
-                  }`}
-                ></span>
-              </span>
-            </span>
-          </button>
-          {/* <!-- Hamburger Toggle BTN --> */}
+            </button>
+          </div>
         </div>
 
-        {/* Nav Menu Start   */}
+        {/* Mobile Nav Menu */}
         <div
-          className={`invisible h-0 w-full items-center justify-between xl:visible xl:flex xl:h-auto xl:w-full ${
-            navigationOpen &&
-            "navbar !visible mt-4 h-auto max-h-[400px] rounded-md bg-white p-7.5 shadow-solid-5 dark:bg-blacksection xl:h-auto xl:p-0 xl:shadow-none xl:dark:bg-transparent"
-          }`}
+          className={`lg:hidden ${
+            navigationOpen
+              ? "visible opacity-100 mt-4"
+              : "invisible opacity-0"
+          } bg-white dark:bg-black transition-all duration-300 ease-in-out`}
         >
-          <nav>
-            <ul className="flex flex-col gap-5 xl:flex-row xl:items-center xl:gap-10">
+          <nav className="py-4">
+            <ul className="flex flex-col gap-4">
               {menuData.map((menuItem, key) => (
-                <li key={key} className={menuItem.submenu && "group relative"}>
+                <li key={key} className={menuItem.submenu ? "group relative" : ""}>
                   {menuItem.submenu ? (
                     <>
                       <button
                         onClick={() => setDropdownToggler(!dropdownToggler)}
-                        className="flex cursor-pointer items-center justify-between gap-3 hover:text-primary"
+                        className="flex w-full cursor-pointer items-center justify-between py-2 text-base text-black hover:text-primary dark:text-white"
                       >
                         {menuItem.title}
-                        <span>
-                          <svg
-                            className="h-3 w-3 cursor-pointer fill-waterloo group-hover:fill-primary"
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 512 512"
-                          >
-                            <path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z" />
+                        <span className="pl-3">
+                          <svg width="15" height="14" viewBox="0 0 15 14">
+                            <path
+                              d="M7.81602 9.97495C7.68477 9.97495 7.57539 9.9312 7.46602 9.8437L2.43477 4.89995C2.23789 4.70308 2.23789 4.39683 2.43477 4.19995C2.63164 4.00308 2.93789 4.00308 3.13477 4.19995L7.81602 8.77183L12.4973 4.1562C12.6941 3.95933 13.0004 3.95933 13.1973 4.1562C13.3941 4.35308 13.3941 4.65933 13.1973 4.8562L8.16601 9.79995C8.05664 9.90933 7.94727 9.97495 7.81602 9.97495Z"
+                              fill="currentColor"
+                            />
                           </svg>
                         </span>
                       </button>
 
                       <ul
-                        className={`dropdown ${dropdownToggler ? "flex" : ""}`}
+                        className={`dropdown pl-4 ${
+                          dropdownToggler ? "flex flex-col gap-2 mt-2" : "hidden"
+                        }`}
                       >
                         {menuItem.submenu.map((item, key) => (
                           <li key={key} className="hover:text-primary">
@@ -137,11 +207,11 @@ const Header = () => {
                   ) : (
                     <Link
                       href={`${menuItem.path}`}
-                      className={
+                      className={`flex py-2 text-base text-black hover:text-primary dark:text-white ${
                         pathUrl === menuItem.path
-                          ? "text-primary hover:text-primary"
-                          : "hover:text-primary"
-                      }
+                          ? "text-primary dark:text-primary"
+                          : ""
+                      }`}
                     >
                       {menuItem.title}
                     </Link>
@@ -150,22 +220,11 @@ const Header = () => {
               ))}
             </ul>
           </nav>
-
-          <div className="mt-7 flex items-center gap-6 xl:mt-0">
-            <ThemeToggler />
-            <Link
-              href="https://nextjstemplates.com/templates/solid"
-              className="flex items-center justify-center rounded-full bg-primary px-7.5 py-2.5 text-regular text-white duration-300 ease-in-out hover:bg-primaryho"
-            >
-              Contact Us
-            </Link>
-          </div>
         </div>
       </div>
     </header>
   );
 };
 
-// w-full delay-300
-
 export default Header;
+

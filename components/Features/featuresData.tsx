@@ -3,45 +3,34 @@ import { Feature } from "@/types/feature";
 const featuresData: Feature[] = [
   {
     id: 1,
-    icon: "/images/icon/icon-01.svg",
-    title: "Software Development",
-    description:
-      "Upliftio offers comprehensive software development services tailored to your business needs.",
+    icon: "/images/features/DigitalM.jpeg",
+    description: "Comprehensive marketing service packages to boost your business growth.",
   },
-  {
-    id: 2,
-    icon: "/images/icon/icon-02.svg",
-    title: "Application Development",
-    description:
-      "Build high-quality applications with our expert development team, ensuring performance and scalability.",
-  },
-  {
-    id: 3,
-    icon: "/images/icon/icon-03.svg",
-    title: "Web Development",
-    description:
-      "Create stunning and responsive websites that engage users and drive business growth.",
-  },
+
   {
     id: 4,
-    icon: "/images/icon/icon-04.svg",
-    title: "Mobile App Development",
-    description:
-      "Develop high-performance mobile applications that provide a seamless user experience across all devices.",
+    icon: "/images/features/CRM.jpeg",
+    description: "Superb deal on marketing services packages for maximum impact.",
   },
   {
     id: 5,
-    icon: "/images/icon/icon-05.svg",
-    title: "Cloud Solutions",
-    description:
-      "Leverage cloud technologies to enhance scalability, security, and accessibility of your applications.",
+    icon: "/images/features/CRM.jpeg",
+    description: "E-commerce CRM development for a seamless online shopping experience.",
   },
   {
-    id: 6,
-    icon: "/images/icon/icon-06.svg",
-    title: "AI and Machine Learning",
-    description:
-      "Integrate AI and machine learning capabilities to drive innovation and efficiency in your business processes.",
+    id: 7,
+    icon: "/images/features/WebD.jpeg",
+    description: "Development service package focused on learning management systems.",
+  },
+  {
+    id: 9,
+    icon: "/images/features/UIUX.jpeg",
+    description: "Combined growth package to accelerate your business success.",
+  },
+  {
+    id: 10,
+    icon: "/images/features/GraphicD.jpeg",
+    description: "E-commerce development services for robust online stores.",
   },
 ];
 

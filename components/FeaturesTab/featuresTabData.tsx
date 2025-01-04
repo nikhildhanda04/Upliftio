@@ -19,6 +19,14 @@ const featuresTabData: FeatureTab[] = [
   },
   {
     id: "tabThree",
+    title: "Mobile App Development",
+    desc1: `Leverage Upliftio's expertise to accelerate your business growth.`,
+    desc2: `We provide comprehensive solutions to help you scale and succeed in the digital landscape.`,
+    image: "/images/features/features-light-01.png",
+    imageDark: "/images/features/features-dark-01.svg",
+  },
+  {
+    id: "tabFour",
     title: "Grow Your Business with Upliftio",
     desc1: `Leverage Upliftio's expertise to accelerate your business growth.`,
     desc2: `We provide comprehensive solutions to help you scale and succeed in the digital landscape.`,

@@ -9,13 +9,12 @@ import Integration from "@/components/Integration";
 import CTA from "@/components/CTA";
 import FAQ from "@/components/FAQ";
 import Contact from "@/components/Contact";
-import Blog from "@/components/Blog";
+import ProjectsSection from "@/components/Project";
 import Testimonial from "@/components/Testimonial";
 
 export const metadata: Metadata = {
   title: "Upliftio",
   description: "Growing Together",
-  // other metadata
 };
 
 export default function Home() {
@@ -31,8 +30,8 @@ export default function Home() {
       <CTA />
       <FAQ />
       <Testimonial />
+      <ProjectsSection />
       <Contact />
-      <Blog />
     </main>
   );
 }
